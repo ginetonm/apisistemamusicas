@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Sistema de Música para DJ</title>
+</head>
+<body>
+  <div class="app">
+    <h1>Sistema de Música para DJ</h1>
+
+    <div class="grid">
+      <!-- Formulários -->
+      <div class="card">
+        <h2>Registro</h2>
+        <form id="registroFormulario">
+          <input type="email" id="registroEmail" placeholder="Email" required>
+          <input type="password" id="registroPassword" placeholder="Senha" required>
+          <button type="submit">Registrar</button>
+        </form>
+
+        <h2>Login</h2>
+        <form id="loginFormulario">
+          <input type="email" id="loginEmail" placeholder="Email" required>
+          <input type="password" id="loginPassword" placeholder="Senha" required>
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+
+      <!-- Lista de músicas -->
+      <aside class="sidebar card">
+        <h2>Músicas</h2>
+        <button id="retornaMusicasBotao" class="btn-ghost">Obter Músicas</button>
+        <div id="musicasLista" class="musicas-list">
+          <p class="empty">Nenhuma música carregada ainda 🎵</p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="footer">Feito por Gineton — Sistema de Música para DJ</div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    const registroForm = document.getElementById('registroFormulario');
+    const loginForm = document.getElementById('loginFormulario');
+    const musicasBtn = document.getElementById('retornaMusicasBotao');
+    const musicasLista = document.getElementById('musicasLista');
+
+    // Registro
+    registroForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('registroEmail').value;
+      const password = document.getElementById('registroPassword').value;
+
+      const response = await fetch('/registro', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        alert('✅ Usuário registrado com sucesso!');
+        e.target.reset();
+      } else {
+        alert('❌ Erro ao registrar usuário.');
+      }
+    });
+
+    // Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ email, password })
+      });
+
+      const dados = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', dados.token);
+        alert('✅ Login realizado com sucesso!');
+        e.target.reset();
+      } else {
+        alert('❌ Login falhou: ' + dados.message);
+      }
+    });
+
+    // Buscar músicas
+    musicasBtn.addEventListener('click', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Por favor, primeiro faça login!');
+        return;
+      }
+
+      const response = await fetch('/musicas', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const musicas = await response.json();
+      if (response.ok) {
+        musicasLista.innerHTML = '';
+        musicas.forEach(musica => {
+          const div = document.createElement('div');
+          div.classList.add('musica-card');
+          div.innerHTML = `
+            <div class="musica-art">${musica.titulo.charAt(0)}</div>
+            <div class="musica-info">
+              ${musica.titulo}<br><small>${musica.artista}</small>
+            </div>
+          `;
+          musicasLista.appendChild(div);
+        });
+      } else {
+        alert('❌ Erro ao buscar músicas: ' + musicas.message);
+      }
+    });
+  </script>
+</body>
+</html>

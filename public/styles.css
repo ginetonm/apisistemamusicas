@@ -1,0 +1,160 @@
+/* Variáveis de tema */
+:root{
+  --bg: #0f1724;         /* fundo escuro */
+  --card: #0b1220;       /* cartão */
+  --muted: #9aa6b2;      /* texto secundário */
+  --accent: #00b7ff;     /* cor principal (azul-ciano) */
+  --accent-2: #7df9ff;   /* tom claro do accent */
+  --text: #eef6fb;       /* texto principal */
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 12px;
+  --glass: rgba(255,255,255,0.03);
+  --shadow: 0 6px 20px rgba(2,6,23,0.6);
+  font-size: 16px;
+}
+
+/* Reset simples */
+*{box-sizing: border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background: linear-gradient(180deg, var(--bg), #071021 120%);
+  color:var(--text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  padding: 32px;
+  line-height:1.4;
+}
+
+/* Container central */
+.app {
+  max-width:980px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Cabeçalho */
+h1{
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+h2{
+  font-size: 1.05rem;
+  color:var(--muted);
+  margin: 18px 0 12px;
+}
+
+/* Grid: forms à esquerda, músicas à direita (desktop) */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Card de formulário */
+.card {
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.01));
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Formulários */
+form {
+  display: grid;
+  gap:10px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+button {
+  width:100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+/* Placeholder */
+::placeholder{color: #7f8a93}
+
+/* Botões */
+button {
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #02121a;
+  font-weight:600;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 18px rgba(3,14,26,0.4);
+}
+button:active{ transform: translateY(1px) }
+.btn-ghost{
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.04);
+  color:var(--muted);
+  box-shadow: none;
+}
+
+/* Lista de músicas (coluna direita) */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap:12px;
+}
+.musica-card {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background:var(--glass);
+  padding:10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.musica-art{
+  width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,#032231,#01364b);
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent-2)
+}
+.musica-info{ font-size:0.95rem }
+.musica-info small{ display:block;color:var(--muted); font-size:0.85rem }
+
+/* Lista sem músicas */
+.empty {
+  color:var(--muted);
+  padding:10px;
+  text-align:center;
+  border-radius:8px;
+  border:1px dashed rgba(255,255,255,0.02);
+}
+
+/* Mensagens de sucesso/erro */
+.alert {
+  padding:8px 12px;
+  border-radius:8px;
+  font-weight:600;
+}
+.alert.success{ background: rgba(34,197,94,0.12); color: var(--success); }
+.alert.error{ background: rgba(239,68,68,0.08); color: var(--danger); }
+
+/* Pequenas melhorias visuais */
+.footer {
+  margin-top:18px;
+  color:var(--muted);
+  font-size:0.9rem;
+  text-align:center;
+}
+
+/* Responsivo: em telas pequenas empilha tudo */
+@media (max-width:900px){
+  .grid{ grid-template-columns: 1fr; }
+  .sidebar{ order: -1 } /* coloca a sidebar acima em mobile, opcional */
+  body{ padding:18px }
+}
