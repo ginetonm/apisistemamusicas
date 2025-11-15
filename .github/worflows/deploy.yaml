@@ -1,0 +1,51 @@
+name: CI/CD - API Sistema de Músicas
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixar o repositório
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      # 2. Instalar Node
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      # 3. Instalar dependências
+      - name: Instalar dependências
+        run: npm install
+
+      # 4. Configurar variáveis de ambiente para os testes
+      - name: Criar arquivo .env para os testes
+        run: |
+          echo "JWT_SECRET=${{ MinhaApiSistemaMusicas123 }}" >> .env
+          echo "DATABASE_URL=${{ "mongodb+srv://ginetonmota_db_user:2srsW7kvryMUACKT@musicdjcluster.t0dmeny.mongodb.net/Registro?retryWrites=true&w=majority&appName=MusicDJCluster" }}" >> .env
+
+      # 5. Rodar testes
+      - name: Rodar testes automatizados
+        run: npm test
+
+      # 6. Instalar CLI do Render
+      - name: Instalar Render CLI
+        run: npm install -g render-cli
+
+      # 7. Fazer deploy no Render (somente no push)
+      - name: Deploy para o Render
+        if: github.event_name == 'push'
+        env:
+          RENDER_API_KEY: ${{ rnd_p5Eyets4jYI7fTXDDbIzdLPZ3AwK }}
+        run: |
+          render services deploy ${{ srv-d2vf5v0gjchc73b688dg }} \
+            --api-key $RENDER_API_KEY \
+            --yes
+

@@ -1,33 +1,91 @@
-# Node modules
+# =========================================
+# Node Modules
+# =========================================
 node_modules/
 
-# Environment variables
+# =========================================
+# Environment Variables
+# =========================================
 .env
+.env.local
+.env.development
+.env.production
+.env.test
 
+# =========================================
 # Logs
+# =========================================
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# OS files
+# =========================================
+# OS Files
+# =========================================
 .DS_Store
 Thumbs.db
 
-# Editor folders
+# =========================================
+# Editor Config Folders
+# =========================================
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Build output
+# =========================================
+# Build Outputs (Back-end e Front-end)
+# =========================================
 dist/
 build/
 .next/
+out/
+parcel-cache/
 .parcel-cache/
+.cache/
+coverage/
 
-# Prisma generated client
+# =========================================
+# Temporary Files
+# =========================================
+*.tmp
+*.temp
+*.bak
+
+# =========================================
+# Prisma
+# =========================================
+prisma/dev.db
+prisma/dev.db-journal
 generated/
 
-# Temporary files
-*.bak
-*.swp
-*.tmp
+# =========================================
+# Jest Cache
+# =========================================
+.jest/
+jest-cache/
+jest-html-reporters-*
+
+# =========================================
+# TypeScript (caso use futuramente)
+# =========================================
+*.tsbuildinfo
+
+# =========================================
+# Local Tools Config
+# =========================================
+.npm/
+.yarn/
+.pnp/
+.pnp.js
+
+# =========================================
+# Build Artifacts from Front-end (caso tenha)
+# =========================================
+*.zip
+*.tar
+*.gz
+
+

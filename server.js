@@ -6,16 +6,15 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const path = require('path');
 const prisma = require('./prismaClient');
-const PORT = process.env.PORT || 3000;
 require('dotenv').config();
 
-const jwtScret = process.env.JWT_SECRET;
+const PORT = process.env.PORT || 3000;
+const jwtSecret = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 
 app.post('/registro', async (req, res) => {
     const { email, password } = req.body;
@@ -40,7 +39,7 @@ app.post('/login', async (req, res) => {
         });
 
         if (user && user.password === password) {
-            const token = jwt.sign({ email }, jwtScret, { expiresIn: '1h' });
+            const token = jwt.sign({ email }, jwtSecret, { expiresIn: '1h' });
             return res.json({ token });
         }
 
@@ -52,26 +51,32 @@ app.post('/login', async (req, res) => {
 });
 
 const autenticarJWT = (req, res, next) => {
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) return res.status(403).send('Token não fornecido.');
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader)
+        return res.status(403).send('Token não fornecido.');
+
+    const token = authHeader.split(" ")[1];
 
     try {
-        const dados = jwt.verify(token, jwtScret);
-        req.users = dados;
+        const dados = jwt.verify(token, jwtSecret);
+        req.user = dados;
         next();
     } catch (error) {
         res.status(400).send('Token inválido.');
-    }   
+    }
 };
 
 app.get('/musicas', autenticarJWT, (req, res) => {
     res.json([
-        { id: 1, titulo: 'Música A', artista: 'DJ A' }, 
+        { id: 1, titulo: 'Música A', artista: 'DJ A' },
         { id: 2, titulo: 'Música B', artista: 'DJ B' }
     ]);
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000.');
-});
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+// Só sobe o servidor quando NÃO estiver em ambiente de teste
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+}
+
+module.exports = app;
