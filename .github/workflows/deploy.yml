@@ -35,16 +35,11 @@ jobs:
       - name: Rodar testes automatizados
         run: npm test
 
-      # 6. Instalar CLI do Render
-      - name: Instalar Render CLI
-        run: npm install -g render-cli
-
-      # 7. Fazer deploy no Render (somente no push)
-      - name: Deploy para o Render
+# Deploy usando API REST do Render
+      - name: Deploy no Render
         if: github.event_name == 'push'
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
         run: |
-          render services deploy ${{ secrets.RENDER_SERVICE_ID }} \
-            --api-key $RENDER_API_KEY \
-            --yes
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -d ''
