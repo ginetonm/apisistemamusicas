@@ -1,123 +1,128 @@
-# 🎵 API Sistema de Músicas  
-API desenvolvida com **Node.js, Express, Prisma, MongoDB** e autenticação via **JWT**.  
-Conta também com um **front-end simples** em HTML/CSS/JS e testes automatizados no **Back-end e Front-end**, utilizando **Jest + Supertest + JSDOM**.
+🎵 API Sistema de Músicas
 
-Além disso, possui **pipeline de Integração Contínua (CI/CD) com GitHub Actions** e **deploy automático no Render**.
+Aplicação completa construída com Node.js, Express, Prisma, MongoDB e autenticação via JWT.
+Inclui ainda um front-end simples, testes automatizados, Swagger, além de CI/CD com GitHub Actions e deploy automático no Render.
 
----
+📌 Funcionalidades
+🔐 Autenticação
 
-## 📌 Funcionalidades da API
+Registro de usuários (POST /registro)
 
-- Registro de usuário (`/registro`)
-- Login com JWT (`/login`)
-- Listagem de músicas protegida por token (`/musicas`)
-- Documentação com Swagger (`/api-docs`)
-- Front-end simples (HTML/CSS/JS) em `/public`
+Login com JWT (POST /login)
 
----
+🎼 Músicas
 
-## 🛠️ Tecnologias Utilizadas
+Listagem protegida por token JWT (GET /musicas)
 
-### **Back-end**
-- Node.js
-- Express
-- JWT
-- Prisma ORM
-- MongoDB
-- Dotenv
+🖥️ Front-end
 
-### **Front-end**
-- HTML
-- CSS
-- JS
+Página simples em HTML/CSS/JS para testar login e listagem.
 
-### **Testes**
-- Jest
-- Supertest (para rotas)
-- JSDOM (para HTML)
+📄 Documentação
 
-### **CI/CD**
-- GitHub Actions
-- Render (deploy automático)
+Swagger UI → /api-docs
 
----
+🛠️ Tecnologias Utilizadas
+Back-end
 
-## 📁 Estrutura do Projeto
+Node.js
 
+Express
+
+JWT
+
+Prisma ORM
+
+MongoDB
+
+Dotenv
+
+Front-end
+
+HTML, CSS e JavaScript
+
+Testes Automatizados
+
+Jest
+
+Supertest
+
+JSDOM
+
+CI/CD
+
+GitHub Actions
+
+Render (Deploy automático)
+
+📁 Estrutura do Projeto
 atividade-api-sistema-musicas-main/
 │
 ├── public/
-│ ├── index.html
-│ ├── styles.css
-│ └── script.js
+│   ├── index.html
+│   ├── styles.css
+│   └── script.js
 │
 ├── tests/
-│ ├── auth.test.js
-│ ├── musicas.test.js
-│ └── frontend.test.js
+│   ├── auth.test.js
+│   ├── musicas.test.js
+│   └── frontend.test.js
 │
 ├── prisma/
-│ └── schema.prisma
+│   └── schema.prisma
 │
 ├── server.js
 ├── prismaClient.js
-├── package.json
 ├── jest.config.js
-└── .env (não incluso no repositório)
+├── package.json
+└── .env (não incluso)
 
-
----
-
-## 🚀 Como rodar o projeto localmente
-
-### 1. Instalar dependências
-```bash
+🚀 Rodando localmente
+1️⃣ Instalar dependências
 npm install
 
-2. Criar o arquivo .env
+2️⃣ Criar o arquivo .env
 
-Crie um arquivo .env na raiz:
+Crie o arquivo na raiz do projeto:
 
 JWT_SECRET=sua_chave_jwt
-DATABASE_URL=sua_url_do_mongodb
+DATABASE_URL=sua_url_mongodb
 PORT=3000
 
-3. Rodar o servidor
+3️⃣ Rodar o servidor
 npm start
 
 
-O projeto vai rodar em:
+Acesse:
 
-📍 http://localhost:3000
+💻 API: http://localhost:3000
 
 📄 Swagger: http://localhost:3000/api-docs
 
-🧪 Rodando os Testes
-Testes de API + Front-End
+🧪 Testes
+Rodar todos os testes (API + Front-end)
 npm test
 
 
 Inclui:
 
 ✔ Testes de autenticação
-✔ Testes protegidos de /musicas
+✔ Testes da rota protegida /musicas
 ✔ Testes do front-end com JSDOM
 
 🔄 Integração Contínua (CI/CD)
 
-O projeto possui um pipeline automatizado que:
+O projeto possui um pipeline no GitHub Actions que:
 
 Instala dependências
 
-Gera .env usando secrets do GitHub
+Gera o .env usando GitHub Secrets
 
-Roda todos os testes
+Executa todos os testes
 
-Se tudo passar → realiza deploy automático no Render
+Se tudo passar → deploy automático no Render
 
-⚙️ Configuração do GitHub Actions (CI/CD)
-
-O workflow está em:
+📂 Arquivo do workflow
 
 .github/workflows/ci.yml
 
@@ -125,39 +130,37 @@ Ele executa:
 
 npm install
 
-Cria .env usando variáveis secretas
+Criação automática do .env
 
-Executa npm test
+npm test
 
-Faz deploy no Render usando render-cli
+Deploy usando render-cli
 
 🔐 Secrets necessários no GitHub
 
-No repositório, acesse:
-
-Settings → Secrets → Actions → New Repository Secret
-
-Crie estes secrets:
+No repositório → Settings → Secrets → Actions
 
 Nome	Descrição
 RENDER_API_KEY	API Key do Render
-RENDER_SERVICE_ID	ID do seu serviço no Render
+RENDER_SERVICE_ID	ID do serviço no Render
 JWT_SECRET	Mesma chave usada localmente
-DATABASE_URL	URL do MongoDB usada no Render
+DATABASE_URL	URL do MongoDB
 🚀 Deploy Automático no Render
 
-Quando você fizer:
+Quando você executa:
 
 git add .
 git commit -m "atualização"
 git push origin main
 
 
-O GitHub Actions irá:
+O GitHub Actions:
 
-🔧 Instalar dependências
-🧪 Rodar testes
-🟢 Se os testes passarem → Deploy automático no Render
+🔧 Instala dependências
+
+🧪 Executa testes
+
+🟢 Se tudo OK → Deploy no Render
 
 📌 Arquivo .env.example
 
@@ -169,8 +172,10 @@ PORT=3000
 
 📜 Licença
 
-Este projeto é livre para uso acadêmico.
+Projeto desenvolvido para fins educativos.
+Livre para uso acadêmico.
 
 🙋🏻‍♂️ Autor
 
-Gíneton Mota — UERN / Sistemas para Internet
+Gíneton Mota
+UERN — Sistemas para Internet
